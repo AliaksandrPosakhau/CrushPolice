@@ -1,0 +1,12 @@
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\CrushPolice.exe.config
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\CrushPolice.exe
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\CrushPolice.pdb
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\sfml-audio.dll
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\sfml-graphics.dll
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\sfml-system.dll
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\bin\Debug\sfml-window.dll
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\obj\Debug\CrushPolice.csproj.AssemblyReference.cache
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\obj\Debug\CrushPolice.csproj.CoreCompileInputs.cache
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\obj\Debug\CrushPolice.csproj.CopyComplete
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\obj\Debug\CrushPolice.exe
+C:\Users\ria_b\source\repos\CrushPolice\CrushPolice\obj\Debug\CrushPolice.pdb
