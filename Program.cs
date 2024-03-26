@@ -12,7 +12,7 @@ class Program
 
     const int APPLICATION_WINDOW_WIDTH = 1400;
     const int APPLICATION_WINDOW_HEIGHT = 1200;
-    const string gameTitle = "Police Mess 1.0";
+    const string gameTitle = "Police Crush 1.0";
 
     static Texture ballTexture;
     static Texture bulldozerTexture; // stickTexture
@@ -20,7 +20,7 @@ class Program
 
     static Sprite steelBallSprite;
     static Sprite bulldozer;
-    static Sprite[] policeCarsArray;
+    static PoliceCar[] policeCarsArray;
     static Ball steelBall;
     static int initialBallSpeed = 10;
 
@@ -31,7 +31,7 @@ class Program
         {
             for (int x = 0; x < 10; ++x)
             {
-                policeCarsArray[index].Position = new Vector2f(x * (policeCarsArray[index].TextureRect.Width + 25) + 100, y * (policeCarsArray[index].TextureRect.Height + 15) + 75);
+                policeCarsArray[index].sprite.Position = new Vector2f(x * (policeCarsArray[index].sprite.TextureRect.Width + 25) + 100, y * (policeCarsArray[index].sprite.TextureRect.Height + 15) + 75);
                 index++;
             }
         }
@@ -53,11 +53,11 @@ class Program
 
         steelBall = new Ball(ballTexture);
         bulldozer = new Sprite(bulldozerTexture);
-        policeCarsArray = new Sprite[100];
+        policeCarsArray = new PoliceCar[100];
 
         for (int i = 0; i < policeCarsArray.Length; i++)
         {
-            policeCarsArray[i] = new Sprite(policeCarTexture);
+            policeCarsArray[i] = new PoliceCar(policeCarTexture);
         }
 
         SetStartPosition();
@@ -77,9 +77,10 @@ class Program
             
             for (int i = 0;i < policeCarsArray.Length;++i)
             {
-               if(steelBall.CollisionCheck(policeCarsArray[i],"police car")==true)
-                {
-                    policeCarsArray[i].Position = new Vector2f(APPLICATION_WINDOW_WIDTH + 300, APPLICATION_WINDOW_HEIGHT+300);
+               if(steelBall.CollisionCheck(policeCarsArray[i].sprite,"police car")==true)
+                {                    
+                    policeCarsArray[i].MovePoliceCarOff();
+                    policeCarsArray[i].playCrashSound();
                     break;
                 }
             }
@@ -90,7 +91,7 @@ class Program
             window.Draw(bulldozer);
             for (int i = 0; i < policeCarsArray.Length; i++)
             {
-                window.Draw(policeCarsArray[i]);
+                window.Draw(policeCarsArray[i].sprite);
             }
 
             window.Display();
