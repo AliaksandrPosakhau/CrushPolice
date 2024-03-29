@@ -14,8 +14,14 @@ class Ball
     float speed;
     Vector2f direction;
 
+    Boolean ballGameOverState = false;
+
     const uint APPLICATION_WINDOW_WIDTH = 1400;
     const uint APPLICATION_WINDOW_HEIGHT = 1200;
+
+    public void SetBallGaveOverState (Boolean state) {
+        this.ballGameOverState = state;
+    }
 
     public Ball(Texture texture)
     {
@@ -24,27 +30,38 @@ class Ball
 
     public void Release(float speed, Vector2f direction)
     {
-        if (this.speed!=0)
+        if(this.ballGameOverState!=true)
         {
-            return;
-        }        
+            if (this.speed != 0)
+            {
+                return;
+            }
             this.speed = speed;
-            this.direction = direction;       
+            this.direction = direction;
+        }
+        
+    }
+
+    public void Freeze()
+    {
+        this.speed=0;
     }
 
     public void Move(Vector2i boundsPosition, Vector2i boundsSize) {
-        sprite.Position += direction * speed;
-
-        if (sprite.Position.X > boundsSize.X - sprite.Texture.Size.X || sprite.Position.X<boundsPosition.X)
+        if (this.ballGameOverState!=true)
         {
-            direction.X *= -1;
+            sprite.Position += direction * speed;
+
+            if (sprite.Position.X > boundsSize.X - sprite.Texture.Size.X || sprite.Position.X < boundsPosition.X)
+            {
+                direction.X *= -1;
+            }
+
+            if (sprite.Position.Y < boundsPosition.Y)
+            {
+                direction.Y *= -1;
+            }
         }
-
-        if (sprite.Position.Y <boundsPosition.Y)
-        {
-            direction.Y *= -1;
-        } 
-
     }
 
 
@@ -66,6 +83,15 @@ class Ball
                 return true;            
         }
 
+        return false;
+    }
+
+    public bool BallLooseCheck()
+    {
+        if (this.sprite.Position.Y > APPLICATION_WINDOW_HEIGHT)
+        {
+            return true;
+        }
         return false;
     }
 }

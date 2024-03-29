@@ -31,6 +31,11 @@ class PoliceCar
     public void setResistance(int resistance) {         
         this.resistance = resistance; 
     }
+
+    public void reduceResistance()
+    {
+        this.resistance--;
+    }
     public PoliceCar(Texture texture)
     {
         Random resistanceRandom = new Random();        
@@ -52,15 +57,20 @@ class PoliceCar
     }
 
     public void MovePoliceCarOff() {
-        int currentResistance;
+        
         if (this.getResistance()==0) {
             this.sprite.Position = new Vector2f(APPLICATION_WINDOW_WIDTH + 300, APPLICATION_WINDOW_HEIGHT + 300);
         } else
         {
             this.playCarAlarmSound();
-            currentResistance = this.getResistance();
-            this.setResistance(currentResistance--);
+            this.reduceResistance();
+             
         }
+    }
+
+    public void Hide()
+    {
+        this.sprite.Position = new Vector2f(APPLICATION_WINDOW_WIDTH + 300, APPLICATION_WINDOW_HEIGHT + 300);
     }
 }
  

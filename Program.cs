@@ -1,9 +1,9 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.Window;
-using SFML.System;
-using System.Runtime.InteropServices;
-using System.Net.Http.Headers;
+using SFML.System; 
+using SFML.Audio;
+
 
 
 class Program
@@ -12,7 +12,8 @@ class Program
 
     const int APPLICATION_WINDOW_WIDTH = 1400;
     const int APPLICATION_WINDOW_HEIGHT = 1200;
-    const string gameTitle = "Police Crush 1.0";
+    const string gameTitle = "Crush Police 1.0";
+    const int POLICE_CARS_INITIAL_AMOUNT = 100;
 
     static Texture ballTexture;
     static Texture bulldozerTexture; // stickTexture
@@ -23,7 +24,8 @@ class Program
     static PoliceCar[] policeCarsArray;
     static Ball steelBall;
     static int initialBallSpeed = 10;
-
+     
+    static Boolean gameOverFlag = false;
     public static void SetStartPosition()
     {
         int index = 0;
@@ -39,6 +41,28 @@ class Program
         steelBall.sprite.Position = new Vector2f((APPLICATION_WINDOW_WIDTH / 2) - 50, APPLICATION_WINDOW_HEIGHT - 230);
     }
 
+    static Music backgroundMusic = new Music("resources/sound/background.ogg");
+   
+    public static void PlayBackground()
+    {
+        backgroundMusic.Play();       
+    }
+
+    public static void StopBackground()
+    {
+        backgroundMusic.Stop();
+    }
+
+    public static void GameOver()
+    {
+        steelBall.Freeze();
+        steelBall.SetBallGaveOverState(true);
+
+        for (int i = 0;i<policeCarsArray.Length;i++) {
+            policeCarsArray[i].Hide();
+        }
+        
+    }
 
     static void Main(string[] args)
     {
@@ -53,7 +77,7 @@ class Program
 
         steelBall = new Ball(ballTexture);
         bulldozer = new Sprite(bulldozerTexture);
-        policeCarsArray = new PoliceCar[100];
+        policeCarsArray = new PoliceCar[POLICE_CARS_INITIAL_AMOUNT];
 
         for (int i = 0; i < policeCarsArray.Length; i++)
         {
@@ -68,8 +92,12 @@ class Program
             window.Clear();
             window.DispatchEvents();
 
-            if(Mouse.IsButtonPressed(Mouse.Button.Left)==true) {
-                steelBall.Release(initialBallSpeed, new Vector2f(0, -1));
+            if(Mouse.IsButtonPressed(Mouse.Button.Left)==true) { 
+                if(gameOverFlag==false)
+                {
+                    steelBall.Release(initialBallSpeed, new Vector2f(0, -1));
+                    // PlayBackground();
+                }
             }
 
             steelBall.Move(new Vector2i(0,0),new Vector2i(APPLICATION_WINDOW_WIDTH,APPLICATION_WINDOW_HEIGHT));
@@ -84,14 +112,24 @@ class Program
                     break;
                 }
             }
-                        
-            bulldozer.Position = new Vector2f(Mouse.GetPosition(window).X - bulldozer.TextureRect.Width * 0.5f, bulldozer.Position.Y);
+            
+            if (gameOverFlag==false) {
+                bulldozer.Position = new Vector2f(Mouse.GetPosition(window).X - bulldozer.TextureRect.Width * 0.5f, bulldozer.Position.Y);
+            }
+            
 
             window.Draw(steelBall.sprite);
             window.Draw(bulldozer);
             for (int i = 0; i < policeCarsArray.Length; i++)
             {
                 window.Draw(policeCarsArray[i].sprite);
+            }
+
+            if (steelBall.BallLooseCheck()==true)
+            {
+                //Console.WriteLine("The ball is lost. Game over.");
+                GameOver();
+                gameOverFlag = true;
             }
 
             window.Display();
